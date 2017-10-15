@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
 
 class App extends Component {
 	constructor(props) {
@@ -11,6 +12,27 @@ class App extends Component {
 			userRepos: [],
 			perPage: 5
 		}
+	}
+
+	// Get user data from Github
+	getUserData(){
+		$.ajax({
+			url: 'https://api.github.com/users/' + this.state.username + '?client_id=' + this.props.clientId + '&client_secret=' + this.props.clientSecret,
+			dataType: 'json',
+			cache: false,
+			success: function(data){
+				console.log(data);
+				this.setState({userData: data})
+			}.bind(this),
+			error: function(xhr, status, err){
+				this.setState({username: null})
+				alert(err);
+			}.bind(this)
+		});
+	}
+
+	componentDidMount() {
+		this.getUserData();
 	}
 
   	render() {

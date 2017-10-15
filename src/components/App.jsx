@@ -22,8 +22,23 @@ class App extends Component {
 			dataType: 'json',
 			cache: false,
 			success: function(data){
-				console.log(data);
 				this.setState({userData: data})
+			}.bind(this),
+			error: function(xhr, status, err){
+				this.setState({username: null})
+				alert(err);
+			}.bind(this)
+		});
+	}
+
+	// Get user repos from Github
+	getUserRepos(){
+		$.ajax({
+			url: 'https://api.github.com/users/' + this.state.username + '/repos?per_page=' + this.state.perPage + '&client_id=' + this.props.clientId + '&client_secret=' + this.props.clientSecret + '&sort=created',
+			dataType: 'json',
+			cache: false,
+			success: function(data){
+				this.setState({userRepos: data})
 			}.bind(this),
 			error: function(xhr, status, err){
 				this.setState({username: null})
@@ -34,6 +49,7 @@ class App extends Component {
 
 	componentDidMount() {
 		this.getUserData();
+		this.getUserRepos();
 	}
 
   	render() {

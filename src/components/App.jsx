@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Profile from './github/Profile.jsx'
+import Search from './github/Search.jsx';
 
 class App extends Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ class App extends Component {
 			username: 'Arthur236',
 			userData: [],
 			userRepos: [],
-			perPage: 5
+			perPage: 10
 		}
 	}
 
@@ -47,6 +48,13 @@ class App extends Component {
 		});
 	}
 
+	handleFormSubmit(username){
+		this.setState({username: username}, function(){
+			this.getUserData();
+			this.getUserRepos();
+		});
+	}
+
 	componentDidMount() {
 		this.getUserData();
 		this.getUserRepos();
@@ -55,8 +63,8 @@ class App extends Component {
   	render() {
     	return (
 	      <div>
-	      	{/* Pass in all state values to Profile component */}
-	      	<Profile {...this.state} />
+	      	<Search onFormSubmit = {this.handleFormSubmit.bind(this)} />
+	      	<Profile {...this.state} /> {/* Pass in all state values to Profile component */}
 	      </div>
 	    );
 	}

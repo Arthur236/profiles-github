@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
+import RepoList from './RepoList.jsx';
 
 class Profile extends Component {
 
@@ -38,6 +39,10 @@ class Profile extends Component {
 							<a className="btn btn-primary" target="_blank" href={this.props.userData.html_url}>View on Github</a>
 						</div>
 					</div>
+
+					<hr/>
+					<h3>User Repositories</h3>
+					<RepoList userRepos = {this.props.userRepos} />
 				</div>
 			</div>
 	    );
